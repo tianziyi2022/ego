@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.hebut.ego.mapper.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.edu.hebut.ego.entity.Goods">
+        <id column="id" property="id" />
+        <result column="good_name" property="goodName" />
+        <result column="good_id" property="goodId" />
+        <result column="price" property="price" />
+        <result column="quantity" property="quantity" />
+        <result column="description" property="description" />
+        <result column="note" property="note" />
+        <result column="status" property="status" />
+        <result column="saler_id" property="salerId" />
+        <result column="good_type" property="goodType" />
+        <result column="picture_count" property="pictureCount" />
+        <result column="picture1_url" property="picture1Url" />
+        <result column="picture2_url" property="picture2Url" />
+        <result column="picture3_url" property="picture3Url" />
+        <result column="picture4_url" property="picture4Url" />
+        <result column="picture5_url" property="picture5Url" />
+        <result column="campus" property="campus" />
+        <result column="depreciation" property="depreciation" />
+        <result column="original_price" property="originalPrice" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+</mapper>
