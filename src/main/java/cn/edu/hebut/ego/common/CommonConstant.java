@@ -125,4 +125,5 @@ public class
 	 * excel最大导出记录条数
 	 */
 	public static final int EXCEL_MAX_ROW = 65530;
+    public static final String REGISTER_USER = "用户注册";
 }

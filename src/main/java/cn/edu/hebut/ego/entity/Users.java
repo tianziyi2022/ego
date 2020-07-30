@@ -46,7 +46,7 @@ public class Users extends Model<Users> {
     private Integer status;
 
     @ApiModelProperty(value = "会员积分")
-    private Long memberPoint;
+    private Integer memberPoint;
 
     @ApiModelProperty(value = "收件人姓名")
     private String receiveName;
