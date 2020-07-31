@@ -53,4 +53,22 @@ public class GoodsController {
         return ApiResponse.success(searchVo);
     }
 
+    @ApiOperation(value = "综合搜索", tags = CommonConstant.SEARCH_PLUS)
+    @PostMapping("/searchPlus")
+    public ApiResponse<SearchVo> searchPlus(
+            @ApiParam(value = "关键字搜索") @RequestParam(name = "key") String key
+    ) {
+        SearchVo searchVo = new SearchVo();
+        try {
+            searchVo = iGoodsService.searchPlus(key);
+        } catch (BizException e) {
+            e.printStackTrace();
+            return ApiResponse.error(e.getErrMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.error(ErrorCodeEnum.SYSTEM_DEFAULT_ERROR);
+        }
+        return ApiResponse.success(searchVo);
+    }
+
 }

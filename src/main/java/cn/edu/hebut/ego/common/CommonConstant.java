@@ -127,4 +127,5 @@ public class
 	public static final int EXCEL_MAX_ROW = 65530;
     public static final String REGISTER_USER = "用户注册";
     public static final String SEARCH = "商品搜索";
+	public static final String SEARCH_PLUS = "综合搜索";
 }

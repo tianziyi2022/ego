@@ -14,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IGoodsService extends IService<Goods> {
     public SearchVo search(String key);
+    public SearchVo searchPlus(String key);
 }
