@@ -1,9 +1,24 @@
 package cn.edu.hebut.ego.controller;
 
 
+import cn.edu.hebut.ego.common.ApiResponse;
+import cn.edu.hebut.ego.common.CommonConstant;
+import cn.edu.hebut.ego.common.ErrorCodeEnum;
+import cn.edu.hebut.ego.common.exception.BizException;
+import cn.edu.hebut.ego.entity.request.LoginRequest;
+import cn.edu.hebut.ego.entity.vo.LoginVo;
+import cn.edu.hebut.ego.entity.vo.SearchVo;
+import cn.edu.hebut.ego.service.IGoodsService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -16,5 +31,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/ego/goods")
 public class GoodsController {
+
+    @Autowired
+    IGoodsService iGoodsService;
+
+    @ApiOperation(value = "关键字搜索", tags = CommonConstant.SEARCH)
+    @PostMapping("/search")
+    public ApiResponse<SearchVo> search(
+            @ApiParam(value = "关键字搜索") @RequestParam(name = "key") String key
+    ) {
+        SearchVo searchVo = new SearchVo();
+        try {
+            searchVo = iGoodsService.search(key);
+        } catch (BizException e) {
+            e.printStackTrace();
+            return ApiResponse.error(e.getErrMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.error(ErrorCodeEnum.SYSTEM_DEFAULT_ERROR);
+        }
+        return ApiResponse.success(searchVo);
+    }
 
 }
