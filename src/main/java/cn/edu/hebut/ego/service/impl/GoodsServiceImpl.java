@@ -30,7 +30,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<Goods>();
         queryWrapper.like("good_name",key);
         List<Goods> goodsList = goodsMapper.selectList(queryWrapper);
-        searchVo.addAll(goodsList);
+        searchVo.setCount(goodsList.size());
+        searchVo.setGoodsList(goodsList);
         return searchVo;
     }
 }
