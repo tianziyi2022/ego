@@ -7,6 +7,7 @@ import cn.edu.hebut.ego.common.ErrorCodeEnum;
 import cn.edu.hebut.ego.common.exception.BizException;
 import cn.edu.hebut.ego.entity.request.LoginRequest;
 import cn.edu.hebut.ego.entity.vo.LoginVo;
+import cn.edu.hebut.ego.entity.vo.RandomGoodVo;
 import cn.edu.hebut.ego.entity.vo.SearchVo;
 import cn.edu.hebut.ego.service.IGoodsService;
 import io.swagger.annotations.ApiOperation;
@@ -69,6 +70,24 @@ public class GoodsController {
             return ApiResponse.error(ErrorCodeEnum.SYSTEM_DEFAULT_ERROR);
         }
         return ApiResponse.success(searchVo);
+    }
+
+    @ApiOperation(value = "随机搜索", tags = CommonConstant.RANDOM_SEARCH)
+    @PostMapping("/getRandomGoods")
+    public ApiResponse<RandomGoodVo> getRandomGoods(
+            @ApiParam(value = "随机搜索") @RequestParam(name = "count") Integer count
+    ) {
+        RandomGoodVo randomGoodVo = new RandomGoodVo();
+        try {
+            randomGoodVo = iGoodsService.getRandomGoods(count);
+        } catch (BizException e) {
+            e.printStackTrace();
+            return ApiResponse.error(e.getErrMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.error(ErrorCodeEnum.SYSTEM_DEFAULT_ERROR);
+        }
+        return ApiResponse.success(randomGoodVo);
     }
 
 }

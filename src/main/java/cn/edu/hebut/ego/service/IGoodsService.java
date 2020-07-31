@@ -1,6 +1,7 @@
 package cn.edu.hebut.ego.service;
 
 import cn.edu.hebut.ego.entity.Goods;
+import cn.edu.hebut.ego.entity.vo.RandomGoodVo;
 import cn.edu.hebut.ego.entity.vo.SearchVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -15,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IGoodsService extends IService<Goods> {
     public SearchVo search(String key);
     public SearchVo searchPlus(String key);
+    public RandomGoodVo getRandomGoods(Integer count);
 }

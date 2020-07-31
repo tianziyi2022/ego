@@ -1,6 +1,8 @@
 package cn.edu.hebut.ego.service.impl;
 
+import cn.edu.hebut.ego.common.exception.BizException;
 import cn.edu.hebut.ego.entity.Goods;
+import cn.edu.hebut.ego.entity.vo.RandomGoodVo;
 import cn.edu.hebut.ego.entity.vo.SearchVo;
 import cn.edu.hebut.ego.mapper.GoodsMapper;
 import cn.edu.hebut.ego.service.IGoodsService;
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * <p>
@@ -58,4 +62,45 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         searchVo.setGoodsList(goodsList1);
         return searchVo;
     }
+
+    @Override
+    public RandomGoodVo getRandomGoods(Integer count) {
+        if(count<=0) {
+            throw new BizException("获取数量有误");
+        }
+        RandomGoodVo randomGoodVo = new RandomGoodVo();
+        Integer account = goodsMapper.count();
+        List<Integer> randomIdList = new ArrayList<Integer>();
+        Random random = new Random();
+        if(count >= account){
+            int circle = count / account;
+            for(int j = 0; j < circle; j++) {
+                for(int i = 0; i < account; i++) {
+                    randomGoodVo.add(goodsMapper.selectById(i+1));
+                }
+            }
+            for(int i = account*circle; i < count; i++) {
+                int randomId = random.nextInt(account)+1;
+                if (randomIdList.contains(randomId)) {
+                    i--;
+                } else {
+                    randomIdList.add(randomId);
+                    randomGoodVo.add(goodsMapper.selectById(randomId));
+                }
+            }
+        } else {
+            for (int i = 0; i < count; i++) {
+                int randomId = random.nextInt(account)+1;
+                if (randomIdList.contains(randomId)) {
+                    i--;
+                } else {
+                    randomIdList.add(randomId);
+                    randomGoodVo.add(goodsMapper.selectById(randomId));
+                }
+            }
+        }
+        return randomGoodVo;
+    }
+
+
 }
