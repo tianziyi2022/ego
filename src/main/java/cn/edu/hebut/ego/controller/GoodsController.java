@@ -6,6 +6,8 @@ import cn.edu.hebut.ego.common.CommonConstant;
 import cn.edu.hebut.ego.common.ErrorCodeEnum;
 import cn.edu.hebut.ego.common.exception.BizException;
 import cn.edu.hebut.ego.entity.request.LoginRequest;
+import cn.edu.hebut.ego.entity.request.RandomGoodsRequest;
+import cn.edu.hebut.ego.entity.request.SearchRequest;
 import cn.edu.hebut.ego.entity.vo.LoginVo;
 import cn.edu.hebut.ego.entity.vo.RandomGoodVo;
 import cn.edu.hebut.ego.entity.vo.SearchVo;
@@ -13,11 +15,7 @@ import cn.edu.hebut.ego.service.IGoodsService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
@@ -39,11 +37,12 @@ public class GoodsController {
     @ApiOperation(value = "关键字搜索", tags = CommonConstant.SEARCH)
     @PostMapping("/search")
     public ApiResponse<SearchVo> search(
-            @ApiParam(value = "关键字搜索") @RequestParam(name = "key") String key
-    ) {
+//            @ApiParam(value = "关键字搜索") @RequestParam(name = "key") String key
+            @RequestBody SearchRequest searchRequest
+            ) {
         SearchVo searchVo = new SearchVo();
         try {
-            searchVo = iGoodsService.search(key);
+            searchVo = iGoodsService.search(searchRequest.getKey());
         } catch (BizException e) {
             e.printStackTrace();
             return ApiResponse.error(e.getErrMessage());
@@ -57,11 +56,12 @@ public class GoodsController {
     @ApiOperation(value = "综合搜索", tags = CommonConstant.SEARCH_PLUS)
     @PostMapping("/searchPlus")
     public ApiResponse<SearchVo> searchPlus(
-            @ApiParam(value = "关键字搜索") @RequestParam(name = "key") String key
+//            @ApiParam(value = "关键字搜索") @RequestParam(name = "key") String key
+            @RequestBody SearchRequest searchRequest
     ) {
         SearchVo searchVo = new SearchVo();
         try {
-            searchVo = iGoodsService.searchPlus(key);
+            searchVo = iGoodsService.searchPlus(searchRequest.getKey());
         } catch (BizException e) {
             e.printStackTrace();
             return ApiResponse.error(e.getErrMessage());
@@ -75,11 +75,12 @@ public class GoodsController {
     @ApiOperation(value = "随机搜索", tags = CommonConstant.RANDOM_SEARCH)
     @PostMapping("/getRandomGoods")
     public ApiResponse<RandomGoodVo> getRandomGoods(
-            @ApiParam(value = "随机搜索") @RequestParam(name = "count") Integer count
-    ) {
+//            @ApiParam(value = "随机搜索") @RequestParam(name = "count") Integer count
+            @RequestBody RandomGoodsRequest randomGoodsRequest
+            ) {
         RandomGoodVo randomGoodVo = new RandomGoodVo();
         try {
-            randomGoodVo = iGoodsService.getRandomGoods(count);
+            randomGoodVo = iGoodsService.getRandomGoods(randomGoodsRequest.getCount());
         } catch (BizException e) {
             e.printStackTrace();
             return ApiResponse.error(e.getErrMessage());
