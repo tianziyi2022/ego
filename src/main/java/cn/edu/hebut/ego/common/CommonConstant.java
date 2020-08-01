@@ -129,4 +129,5 @@ public class
     public static final String SEARCH = "商品搜索";
 	public static final String SEARCH_PLUS = "综合搜索";
 	public static final String RANDOM_SEARCH = "随机推荐";
+    public static final String GET_RECIEVE_ORDER = "获取收到的订单";
 }

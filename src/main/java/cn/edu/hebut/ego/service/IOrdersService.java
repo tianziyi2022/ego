@@ -3,6 +3,8 @@ package cn.edu.hebut.ego.service;
 import cn.edu.hebut.ego.entity.Orders;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IOrdersService extends IService<Orders> {
 
+    List<Orders> getReceiveOrder(Integer userId);
 }
