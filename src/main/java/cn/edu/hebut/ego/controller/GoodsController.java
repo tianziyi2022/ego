@@ -34,6 +34,7 @@ public class GoodsController {
     @Autowired
     IGoodsService iGoodsService;
 
+    @CrossOrigin
     @ApiOperation(value = "关键字搜索", tags = CommonConstant.SEARCH)
     @PostMapping("/search")
     public ApiResponse<SearchVo> search(
@@ -53,6 +54,7 @@ public class GoodsController {
         return ApiResponse.success(searchVo);
     }
 
+    @CrossOrigin
     @ApiOperation(value = "综合搜索", tags = CommonConstant.SEARCH_PLUS)
     @PostMapping("/searchPlus")
     public ApiResponse<SearchVo> searchPlus(
@@ -72,6 +74,7 @@ public class GoodsController {
         return ApiResponse.success(searchVo);
     }
 
+    @CrossOrigin
     @ApiOperation(value = "随机搜索", tags = CommonConstant.RANDOM_SEARCH)
     @PostMapping("/getRandomGoods")
     public ApiResponse<RandomGoodVo> getRandomGoods(
@@ -81,6 +84,7 @@ public class GoodsController {
         RandomGoodVo randomGoodVo = new RandomGoodVo();
         try {
             randomGoodVo = iGoodsService.getRandomGoods(randomGoodsRequest.getCount());
+//            randomGoodVo = iGoodsService.getRandomGoods(count);
         } catch (BizException e) {
             e.printStackTrace();
             return ApiResponse.error(e.getErrMessage());

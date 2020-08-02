@@ -1,5 +1,6 @@
 package cn.edu.hebut.ego.service.impl;
 
+import cn.edu.hebut.ego.common.annotation.AccessToken;
 import cn.edu.hebut.ego.common.exception.BizException;
 import cn.edu.hebut.ego.entity.Goods;
 import cn.edu.hebut.ego.entity.vo.RandomGoodVo;

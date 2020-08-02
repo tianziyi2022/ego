@@ -14,6 +14,7 @@ import cn.edu.hebut.ego.service.IUsersService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class UsersController {
     @Autowired
     IUsersService iUsersService;
 
+    @CrossOrigin
     @ApiOperation(value = "用户登陆", tags = CommonConstant.LOGIN_USER)
     @PostMapping("/login")
     public ApiResponse<LoginVo> login(
@@ -53,6 +55,7 @@ public class UsersController {
         return ApiResponse.success(loginVo);
     }
 
+    @CrossOrigin
     @ApiOperation(value = "用户注册", tags = CommonConstant.REGISTER_USER)
     @PostMapping("/register")
     public ApiResponse<RegisterVo> register(

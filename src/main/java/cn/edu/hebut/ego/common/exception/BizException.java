@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 异常类
+ * @author tianziyi
  */
 
 @Data

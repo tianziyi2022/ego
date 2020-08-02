@@ -33,6 +33,7 @@ public class OrdersController {
     @Autowired
     IOrdersService iOrdersService;
 
+    @CrossOrigin
     @ApiOperation(value = "查看收到的订单", tags = CommonConstant.GET_RECIEVE_ORDER)
     @PostMapping("/getReceiveOrder")
     public ApiResponse<List<Orders>> getReceiveOrder(
