@@ -14,4 +14,7 @@ public class ReceiveOrderRequest {
     @ApiModelProperty(value = "用户id")
     private Integer id;
 
+    @ApiModelProperty(value = "登陆令牌")
+    private String token;
+
 }

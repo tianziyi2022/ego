@@ -4,7 +4,9 @@ package cn.edu.hebut.ego.controller;
 import cn.edu.hebut.ego.common.ApiResponse;
 import cn.edu.hebut.ego.common.CommonConstant;
 import cn.edu.hebut.ego.common.ErrorCodeEnum;
+import cn.edu.hebut.ego.common.TokenCheck;
 import cn.edu.hebut.ego.common.exception.BizException;
+import cn.edu.hebut.ego.common.exception.ErrorTokenException;
 import cn.edu.hebut.ego.entity.Orders;
 import cn.edu.hebut.ego.entity.request.LoginRequest;
 import cn.edu.hebut.ego.entity.request.ReceiveOrderRequest;
@@ -42,7 +44,11 @@ public class OrdersController {
             ) {
         List<Orders> receiveOrderList = new ArrayList<Orders>();
         try {
+            TokenCheck tokenCheck = new TokenCheck();
+            tokenCheck.check(receiveOrderRequest.getId(), receiveOrderRequest.getToken());
             receiveOrderList = iOrdersService.getReceiveOrder(receiveOrderRequest.getId());
+        } catch (ErrorTokenException e){
+            return ApiResponse.error(401,e.getErrMessage(),null);
         } catch (BizException e) {
 //            logger.error("登录失败", e);
             return ApiResponse.error(e.getErrMessage());

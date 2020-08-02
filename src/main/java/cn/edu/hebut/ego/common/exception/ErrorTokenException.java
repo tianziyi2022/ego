@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author tianziyi
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class ErrorTokenException extends RuntimeException {
