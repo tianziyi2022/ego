@@ -23,6 +23,8 @@ public class TokenCheck {
         Users user1 = usersMapper.selectById(id);
         if (Objects.isNull(user1)) {
             throw new ErrorTokenException("用户不存在");
+        }else if(!user1.getStatus().equals(10)){
+            throw new ErrorTokenException("用户状态异常");
         }else if(!user1.getToken().equals(token)){
             throw new ErrorTokenException("token验证失效");
         }

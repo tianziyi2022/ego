@@ -5,6 +5,7 @@ import cn.edu.hebut.ego.entity.request.LoginRequest;
 import cn.edu.hebut.ego.entity.request.RegisterRequest;
 import cn.edu.hebut.ego.entity.vo.LoginVo;
 import cn.edu.hebut.ego.entity.vo.RegisterVo;
+import cn.edu.hebut.ego.entity.vo.UserDetailVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -18,4 +19,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IUsersService extends IService<Users> {
     public LoginVo login(LoginRequest loginRequest);
     public RegisterVo register(RegisterRequest registerRequest);
+    public UserDetailVo getUserDetail(Integer id);
 }

@@ -4,12 +4,15 @@ package cn.edu.hebut.ego.controller;
 import cn.edu.hebut.ego.common.ApiResponse;
 import cn.edu.hebut.ego.common.CommonConstant;
 import cn.edu.hebut.ego.common.ErrorCodeEnum;
+import cn.edu.hebut.ego.common.TokenCheck;
 import cn.edu.hebut.ego.common.exception.BizException;
 import cn.edu.hebut.ego.entity.Users;
 import cn.edu.hebut.ego.entity.request.LoginRequest;
 import cn.edu.hebut.ego.entity.request.RegisterRequest;
+import cn.edu.hebut.ego.entity.request.UserDetailRequest;
 import cn.edu.hebut.ego.entity.vo.LoginVo;
 import cn.edu.hebut.ego.entity.vo.RegisterVo;
+import cn.edu.hebut.ego.entity.vo.UserDetailVo;
 import cn.edu.hebut.ego.service.IUsersService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -85,6 +88,27 @@ public class UsersController {
             return ApiResponse.error(ErrorCodeEnum.SYSTEM_DEFAULT_ERROR);
         }
         return ApiResponse.success(registerVo);
+    }
+
+    @CrossOrigin
+    @ApiOperation(value = "获取用户信息详情", tags = CommonConstant.GET_USER_DETAIL)
+    @PostMapping("/getUserDetail")
+    public ApiResponse<UserDetailVo> getUserDetail(
+            @RequestBody UserDetailRequest userDetailRequest
+            ) {
+        UserDetailVo userDetailVo = new UserDetailVo();
+        try {
+            TokenCheck tokenCheck = new TokenCheck();
+            tokenCheck.check(userDetailRequest.getId(), userDetailRequest.getToken());
+            userDetailVo = iUsersService.getUserDetail(userDetailRequest.getId());
+        } catch (BizException e) {
+//            logger.error("登录失败", e);
+            return ApiResponse.error(e.getErrMessage());
+        } catch (Exception e) {
+//            logger.error("登录失败", e);
+            return ApiResponse.error(ErrorCodeEnum.SYSTEM_DEFAULT_ERROR);
+        }
+        return ApiResponse.success(userDetailVo);
     }
 
 }

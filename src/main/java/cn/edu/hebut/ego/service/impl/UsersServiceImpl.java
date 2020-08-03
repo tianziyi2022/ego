@@ -4,8 +4,10 @@ import cn.edu.hebut.ego.common.exception.BizException;
 import cn.edu.hebut.ego.entity.Users;
 import cn.edu.hebut.ego.entity.request.LoginRequest;
 import cn.edu.hebut.ego.entity.request.RegisterRequest;
+import cn.edu.hebut.ego.entity.request.UserDetailRequest;
 import cn.edu.hebut.ego.entity.vo.LoginVo;
 import cn.edu.hebut.ego.entity.vo.RegisterVo;
+import cn.edu.hebut.ego.entity.vo.UserDetailVo;
 import cn.edu.hebut.ego.mapper.UsersMapper;
 import cn.edu.hebut.ego.service.IUsersService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -74,15 +76,18 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     public RegisterVo register(RegisterRequest registerRequest) {
+        if (registerRequest.getPhone().length() != 0 && registerRequest.getPhone().length() != 11) {
+            throw new BizException("电话号码输入非法");
+        }
         Users user0 = new Users();
         user0.setUserId(registerRequest.getUserId());
+        user0.setStatus(10);
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.setEntity(user0);
         Users user = usersMapper.selectOne(queryWrapper);
         if (!Objects.isNull(user)) {
             throw new BizException("用户名重复");
         }
-        user0 = new Users();
         user0.setPhone(registerRequest.getPhone());
         user0.setStatus(10);
         queryWrapper.setEntity(user0);
@@ -90,9 +95,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         if (!Objects.isNull(user)) {
             throw new BizException("电话号码重复");
         }
-        if (registerRequest.getPhone().length() != 0 && registerRequest.getPhone().length() != 11) {
-            throw new BizException("电话号码输入非法");
-        }
+        user0 = new Users();
         user0 = new Users();
         user0.setUserId(registerRequest.getUserId());
         user0.setUserName(registerRequest.getUserName());
@@ -121,5 +124,16 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         return registerVo;
     }
 
+    @Override
+    public UserDetailVo getUserDetail(Integer id) {
+        UserDetailVo userDetailVo = new UserDetailVo();
+        Users user = usersMapper.selectById(id);
+        userDetailVo.setUserName(user.getUserName());
+        userDetailVo.setSex(user.getSex());
+        String phone = user.getPhone().substring(0,2).concat("****").concat(user.getPhone().substring(7));
+        userDetailVo.setPhone(phone);
+        userDetailVo.setCampus(user.getCampus());
+        return userDetailVo;
+    }
 
 }
