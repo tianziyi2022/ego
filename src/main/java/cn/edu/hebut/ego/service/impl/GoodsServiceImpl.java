@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -37,7 +38,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         queryWrapper.like("good_name",key);
         List<Goods> goodsList = goodsMapper.selectList(queryWrapper);
         searchVo.setCount(goodsList.size());
-        goodsList.removeIf(good -> (!"10".equals(good.getStatus())) && (!"12".equals(good.getStatus())));
+        goodsList.removeIf(good -> (good.getStatus()!=10) && (good.getStatus()!=12));
         searchVo.setGoodsList(goodsList);
         return searchVo;
     }
@@ -58,7 +59,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goodsList1.addAll(goodsList2);
         goodsList3.removeIf(goodsList1::contains);
         goodsList1.addAll(goodsList3);
-        goodsList1.removeIf(good -> (!"10".equals(good.getStatus())) && (!"12".equals(good.getStatus())));
+        goodsList1.removeIf(good -> (good.getStatus()!=10) && (good.getStatus()!=12));
         searchVo.setCount(goodsList1.size());
         searchVo.setGoodsList(goodsList1);
         return searchVo;
@@ -70,29 +71,30 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             throw new BizException("获取数量有误");
         }
         RandomGoodVo randomGoodVo = new RandomGoodVo();
-        Integer account = goodsMapper.count();
+        int account = goodsMapper.count();
+        int accountAll = goodsMapper.countAll();
         List<Integer> randomIdList = new ArrayList<Integer>();
         Random random = new Random();
+        int goodi = 1;
         if(count >= account){
-            int circle = count / account;
-            for(int j = 0; j < circle; j++) {
-                for(int i = 0; i < account; i++) {
-                    randomGoodVo.add(goodsMapper.selectById(i+1));
-                }
-            }
-            for(int i = account*circle; i < count; i++) {
-                int randomId = random.nextInt(account)+1;
-                if (randomIdList.contains(randomId)) {
+            for(int i = 0; i < count; i++) {
+                Goods good = goodsMapper.selectById(goodi);
+                if(goodi==accountAll+1){
+                    goodi=1;
+                }else if (Objects.isNull(good)||good.getStatus()!=10&&good.getStatus()!=12) {
                     i--;
-                } else {
-                    randomIdList.add(randomId);
-                    randomGoodVo.add(goodsMapper.selectById(randomId));
+                    goodi++;
+                }else{
+                    randomGoodVo.add(good);
+                    goodi++;
                 }
+
             }
         } else {
             for (int i = 0; i < count; i++) {
                 int randomId = random.nextInt(account)+1;
-                if (randomIdList.contains(randomId)) {
+                Goods good = goodsMapper.selectById(randomId);
+                if (randomIdList.contains(randomId)|| Objects.isNull(good)||(good.getStatus()!=10&&good.getStatus()!=12)) {
                     i--;
                 } else {
                     randomIdList.add(randomId);

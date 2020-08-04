@@ -46,7 +46,7 @@ public class Goods extends Model<Goods> {
     private String note;
 
     @ApiModelProperty(value = "状态（0未发布，10正在发布，11发布后撤回，12修改后发布，20已售出）")
-    private String status;
+    private Integer status;
 
     @ApiModelProperty(value = "卖家用户id")
     private Integer salerId;

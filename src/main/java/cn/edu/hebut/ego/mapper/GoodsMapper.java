@@ -16,7 +16,10 @@ import java.util.List;
  */
 public interface GoodsMapper extends BaseMapper<Goods> {
 
-    @Select(" select count(*) from goods ")
+    @Select(" select count(*) from goods where status=10 or status=12")
     public int count();
+
+    @Select(" select count(*) from goods")
+    public int countAll();
 
 }
