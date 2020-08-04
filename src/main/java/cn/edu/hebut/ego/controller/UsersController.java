@@ -4,9 +4,7 @@ package cn.edu.hebut.ego.controller;
 import cn.edu.hebut.ego.common.ApiResponse;
 import cn.edu.hebut.ego.common.CommonConstant;
 import cn.edu.hebut.ego.common.ErrorCodeEnum;
-import cn.edu.hebut.ego.common.TokenCheck;
 import cn.edu.hebut.ego.common.exception.BizException;
-import cn.edu.hebut.ego.entity.Users;
 import cn.edu.hebut.ego.entity.request.LoginRequest;
 import cn.edu.hebut.ego.entity.request.RegisterRequest;
 import cn.edu.hebut.ego.entity.request.UserDetailRequest;
@@ -15,9 +13,7 @@ import cn.edu.hebut.ego.entity.vo.RegisterVo;
 import cn.edu.hebut.ego.entity.vo.UserDetailVo;
 import cn.edu.hebut.ego.service.IUsersService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,9 +94,7 @@ public class UsersController {
             ) {
         UserDetailVo userDetailVo = new UserDetailVo();
         try {
-            TokenCheck tokenCheck = new TokenCheck();
-            tokenCheck.check(userDetailRequest.getId(), userDetailRequest.getToken());
-            userDetailVo = iUsersService.getUserDetail(userDetailRequest.getId());
+            userDetailVo = iUsersService.getUserDetail(userDetailRequest.getId(),userDetailRequest.getToken());
         } catch (BizException e) {
 //            logger.error("登录失败", e);
             return ApiResponse.error(e.getErrMessage());

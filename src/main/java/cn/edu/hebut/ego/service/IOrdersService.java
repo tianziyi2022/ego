@@ -15,5 +15,5 @@ import java.util.List;
  */
 public interface IOrdersService extends IService<Orders> {
 
-    List<Orders> getReceiveOrder(Integer userId);
+    List<Orders> getReceiveOrder(Integer userId,String token);
 }

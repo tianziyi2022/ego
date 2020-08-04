@@ -125,9 +125,18 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
-    public UserDetailVo getUserDetail(Integer id) {
+    public UserDetailVo getUserDetail(Integer id,String token) {
         UserDetailVo userDetailVo = new UserDetailVo();
         Users user = usersMapper.selectById(id);
+        if(Objects.isNull(user)){
+            throw new BizException("用户不存在");
+        }
+        if(!user.getStatus().equals(10)) {
+            throw new BizException("用户状态异常");
+        }
+        if(!user.getToken().equals(token)){
+            throw new BizException("token验证失败");
+        }
         userDetailVo.setUserName(user.getUserName());
         userDetailVo.setSex(user.getSex());
         String phone = user.getPhone().substring(0,2).concat("****").concat(user.getPhone().substring(7));
