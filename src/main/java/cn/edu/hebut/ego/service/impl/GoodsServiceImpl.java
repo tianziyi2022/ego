@@ -92,13 +92,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             }
         } else {
             for (int i = 0; i < count; i++) {
-                int randomId = random.nextInt(account)+1;
+                int randomId = random.nextInt(accountAll)+1;
                 Goods good = goodsMapper.selectById(randomId);
-                if (randomIdList.contains(randomId)|| Objects.isNull(good)||(good.getStatus()!=10&&good.getStatus()!=12)) {
+                if (randomIdList.contains(randomId)||Objects.isNull(good)||(good.getStatus()!=10&&good.getStatus()!=12)) {
                     i--;
                 } else {
                     randomIdList.add(randomId);
-                    randomGoodVo.add(goodsMapper.selectById(randomId));
+                    randomGoodVo.add(good);
                 }
             }
         }
