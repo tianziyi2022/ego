@@ -3,6 +3,8 @@ package cn.edu.hebut.ego.service.impl;
 import cn.edu.hebut.ego.common.exception.BizException;
 import cn.edu.hebut.ego.entity.Orders;
 import cn.edu.hebut.ego.entity.Users;
+import cn.edu.hebut.ego.entity.vo.ReceiveOrderVo;
+import cn.edu.hebut.ego.mapper.GoodsMapper;
 import cn.edu.hebut.ego.mapper.OrdersMapper;
 import cn.edu.hebut.ego.mapper.UsersMapper;
 import cn.edu.hebut.ego.service.IOrdersService;
@@ -32,8 +34,11 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     @Resource
     UsersMapper usersMapper;
 
+    @Resource
+    GoodsMapper goodsMapper;
+
     @Override
-    public List<Orders> getReceiveOrder(Integer userId,String token){
+    public List<ReceiveOrderVo> getReceiveOrder(Integer userId, String token){
         Users user = usersMapper.selectById(userId);
         if(Objects.isNull(user)){
             throw new BizException("用户不存在");
@@ -46,10 +51,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         }
         Orders order = new Orders();
         order.setSalerId(userId);
-        List<Orders> receiveOrderList = new ArrayList<Orders>();
+        List<ReceiveOrderVo> receiveOrderList = new ArrayList<ReceiveOrderVo>();
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.setEntity(order);
-        receiveOrderList = ordersMapper.selectList(queryWrapper);
+        List<Orders> orderList = ordersMapper.selectList(queryWrapper);
+        for(Orders order0:orderList){
+            receiveOrderList.add(new ReceiveOrderVo(goodsMapper.selectById(order0.getGoodId()).getGoodName(),order0));
+        }
         return receiveOrderList;
     }
 

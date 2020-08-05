@@ -7,6 +7,7 @@ import cn.edu.hebut.ego.common.ErrorCodeEnum;
 import cn.edu.hebut.ego.common.exception.BizException;
 import cn.edu.hebut.ego.entity.Orders;
 import cn.edu.hebut.ego.entity.request.ReceiveOrderRequest;
+import cn.edu.hebut.ego.entity.vo.ReceiveOrderVo;
 import cn.edu.hebut.ego.service.IOrdersService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,11 @@ public class OrdersController {
     @CrossOrigin
     @ApiOperation(value = "查看收到的订单", tags = CommonConstant.GET_RECEIVE_ORDER)
     @PostMapping("/getReceiveOrder")
-    public ApiResponse<List<Orders>> getReceiveOrder(
+    public ApiResponse<List<ReceiveOrderVo>> getReceiveOrder(
 //            @ApiParam(value = "用户自增id") @RequestParam(name = "userId") Integer userId
             @RequestBody ReceiveOrderRequest receiveOrderRequest
             ) {
-        List<Orders> receiveOrderList = new ArrayList<Orders>();
+        List<ReceiveOrderVo> receiveOrderList = new ArrayList<ReceiveOrderVo>();
         try {
             receiveOrderList = iOrdersService.getReceiveOrder(receiveOrderRequest.getId(),receiveOrderRequest.getToken());
         } catch (BizException e) {
